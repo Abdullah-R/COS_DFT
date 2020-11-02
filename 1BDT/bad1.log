@@ -1,0 +1,63 @@
++run
+Starting program: /u/dianey/Assignments/COS_DFT/1BDT/bdtBad1 
+
+Program received signal SIGABRT, Aborted.
+0x0000ffffbe5f50e8 in raise () from /lib64/libc.so.6
+Missing separate debuginfos, use: debuginfo-install glibc-2.17-222.sd7.aarch64
++where
+#0  0x0000ffffbe5f50e8 in raise () from /lib64/libc.so.6
+#1  0x0000ffffbe5f6760 in abort () from /lib64/libc.so.6
+#2  0x0000ffffbe5ee5dc in __assert_fail_base () from /lib64/libc.so.6
+#3  0x0000ffffbe5ee694 in __assert_fail () from /lib64/libc.so.6
+#4  0x0000000000402760 in main () at bdt_client.c:22
++break bdt_client.c:21
+Breakpoint 1 at 0x40272c: file bdt_client.c, line 21.
++run
+The program being debugged has been started already.
+Start it from the beginning? (y or n) 
+Starting program: /u/dianey/Assignments/COS_DFT/1BDT/bdtBad1 
+
+Breakpoint 1, main () at bdt_client.c:22
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:22:814:beg:0x40272c
++step
+BDT_insertPath (path=0x4035f0 "a/b/c") at bdtBad1.c:320
+/u/cos217/Assignment4/bdtBad1.c:320:8155:beg:0x402198
++s
+/u/cos217/Assignment4/bdtBad1.c:322:8181:beg:0x4021c4
++s
+BDT_traversePath (path=0x4035f0 "a/b/c") at bdtBad1.c:140
+/u/cos217/Assignment4/bdtBad1.c:140:3870:beg:0x401db4
++s
+/u/cos217/Assignment4/bdtBad1.c:141:3895:beg:0x401de0
++s
+BDT_traversePathFrom (path=0x4035f0 "a/b/c", curr=0x0)
+    at bdtBad1.c:106
+/u/cos217/Assignment4/bdtBad1.c:106:2824:beg:0x401cbc
++s
+/u/cos217/Assignment4/bdtBad1.c:109:2884:beg:0x401ce8
++s
+/u/cos217/Assignment4/bdtBad1.c:110:2904:beg:0x401cf4
++s
+/u/cos217/Assignment4/bdtBad1.c:132:3655:beg:0x401d9c
++s
+BDT_traversePath (path=0x4035f0 "a/b/c") at bdtBad1.c:142
+/u/cos217/Assignment4/bdtBad1.c:142:3939:beg:0x401df4
++s
+BDT_insertPath (path=0x4035f0 "a/b/c") at bdtBad1.c:323
+/u/cos217/Assignment4/bdtBad1.c:323:8215:beg:0x4021d0
++n
+/u/cos217/Assignment4/bdtBad1.c:324:8259:beg:0x4021dc
++n
+
+Program received signal SIGABRT, Aborted.
+0x0000ffffbe5f50e8 in raise () from /lib64/libc.so.6
++run
+The program being debugged has been started already.
+Start it from the beginning? (y or n) 
+Starting program: /u/dianey/Assignments/COS_DFT/1BDT/bdtBad1 
+
+Breakpoint 1, main () at bdt_client.c:22
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:22:814:beg:0x40272c
++s
+BDT_insertPath (path=0x4035f0 "a/b/c") at bdtBad1.c:320
+/u/cos217/Assignment4/bdtBad1.c:320:8155:beg:0x402198

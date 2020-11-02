@@ -1,0 +1,246 @@
++run 
+The program being debugged has been started already.
+Start it from the beginning? (y or n) 
+Starting program: /u/dianey/Assignments/COS_DFT/1BDT/bdtBad5 
+
+Program received signal SIGABRT, Aborted.
+0x0000ffffbe5f50e8 in raise () from /lib64/libc.so.6
++where
+#0  0x0000ffffbe5f50e8 in raise () from /lib64/libc.so.6
+#1  0x0000ffffbe5f6760 in abort () from /lib64/libc.so.6
+#2  0x0000ffffbe5ee5dc in __assert_fail_base () from /lib64/libc.so.6
+#3  0x0000ffffbe5ee694 in __assert_fail () from /lib64/libc.so.6
+#4  0x0000000000402584 in BDT_strlenAccumulate (str=0x0, 
+    pAcc=0xfffffffff078) at bdtBad5.c:440
+#5  0x0000000000401400 in DynArray_map (oDynArray=0x430010, 
+    pfApply=0x402544 <BDT_strlenAccumulate>, pvExtra=0xfffffffff078)
+    at dynarray.c:251
+#6  0x00000000004026ec in BDT_toString () at bdtBad5.c:476
+#7  0x000000000040284c in main () at bdt_client.c:31
++break bdt_client.c:30
+Breakpoint 1 at 0x402814: file bdt_client.c, line 30.
++run
+The program being debugged has been started already.
+Start it from the beginning? (y or n) 
+Starting program: /u/dianey/Assignments/COS_DFT/1BDT/bdtBad5 
+
+Breakpoint 1, main () at bdt_client.c:30
+warning: Source file is more recent than executable.
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:30:1176:beg:0x402814
++n
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:31:1222:beg:0x402848
++s
+BDT_toString () at bdtBad5.c:467
+/u/cos217/Assignment4/bdtBad5.c:467:11643:beg:0x402680
++n
+/u/cos217/Assignment4/bdtBad5.c:468:11694:beg:0x402688
++n
+/u/cos217/Assignment4/bdtBad5.c:470:11719:beg:0x40268c
++n
+/u/cos217/Assignment4/bdtBad5.c:473:11761:beg:0x4026a8
++print count
+$1 = 0
++n
+/u/cos217/Assignment4/bdtBad5.c:474:11795:beg:0x4026c0
++n
+/u/cos217/Assignment4/bdtBad5.c:476:11845:beg:0x4026d8
++n
+
+Program received signal SIGABRT, Aborted.
+0x0000ffffbe5f50e8 in raise () from /lib64/libc.so.6
++run
+The program being debugged has been started already.
+Start it from the beginning? (y or n) 
+Starting program: /u/dianey/Assignments/COS_DFT/1BDT/bdtBad5 
+
+Breakpoint 1, main () at bdt_client.c:30
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:30:1176:beg:0x402814
++n
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:31:1222:beg:0x402848
++s
+BDT_toString () at bdtBad5.c:467
+/u/cos217/Assignment4/bdtBad5.c:467:11643:beg:0x402680
++n
+/u/cos217/Assignment4/bdtBad5.c:468:11694:beg:0x402688
++n
+/u/cos217/Assignment4/bdtBad5.c:470:11719:beg:0x40268c
++n
+/u/cos217/Assignment4/bdtBad5.c:473:11761:beg:0x4026a8
++n
+/u/cos217/Assignment4/bdtBad5.c:474:11795:beg:0x4026c0
++n
+/u/cos217/Assignment4/bdtBad5.c:476:11845:beg:0x4026d8
++s
+DynArray_map (oDynArray=0x430010, 
+    pfApply=0x402544 <BDT_strlenAccumulate>, pvExtra=0xfffffffff078)
+    at dynarray.c:246
+warning: Source file is more recent than executable.
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:246:6201:beg:0x40134c
++s
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:247:6231:beg:0x401378
++s
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:248:6259:beg:0x4013a4
++n
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:250:6300:beg:0x4013d4
++n
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:251:6344:beg:0x4013dc
++s
+BDT_strlenAccumulate (str=0x0, pAcc=0xfffffffff078) at bdtBad5.c:440
+/u/cos217/Assignment4/bdtBad5.c:440:10873:beg:0x402558
++n
+
+Program received signal SIGABRT, Aborted.
+0x0000ffffbe5f50e8 in raise () from /lib64/libc.so.6
++run
+The program being debugged has been started already.
+Start it from the beginning? (y or n) 
+Starting program: /u/dianey/Assignments/COS_DFT/1BDT/bdtBad5 
+
+Breakpoint 1, main () at bdt_client.c:30
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:30:1176:beg:0x402814
++n
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:31:1222:beg:0x402848
++s
+BDT_toString () at bdtBad5.c:467
+/u/cos217/Assignment4/bdtBad5.c:467:11643:beg:0x402680
++n
+/u/cos217/Assignment4/bdtBad5.c:468:11694:beg:0x402688
++n
+/u/cos217/Assignment4/bdtBad5.c:470:11719:beg:0x40268c
++n
+/u/cos217/Assignment4/bdtBad5.c:473:11761:beg:0x4026a8
++n
+/u/cos217/Assignment4/bdtBad5.c:474:11795:beg:0x4026c0
++n
+/u/cos217/Assignment4/bdtBad5.c:476:11845:beg:0x4026d8
++s
+DynArray_map (oDynArray=0x430010, 
+    pfApply=0x402544 <BDT_strlenAccumulate>, pvExtra=0xfffffffff078)
+    at dynarray.c:246
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:246:6201:beg:0x40134c
++print oDynArray
+$2 = (DynArray_T) 0x430010
++print *oDynArray
+$3 = {uLength = 1, uPhysLength = 2, ppvArray = 0x430030}
++print oDynArray->ppvArray[0]
+$4 = (const void *) 0x0
++print oDynArray->ppvArray[1]
+$5 = (const void *) 0x0
++run
+The program being debugged has been started already.
+Start it from the beginning? (y or n) 
+Starting program: /u/dianey/Assignments/COS_DFT/1BDT/bdtBad5 
+
+Breakpoint 1, main () at bdt_client.c:30
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:30:1176:beg:0x402814
++break bdt_client.c:29
+Breakpoint 2 at 0x4027e8: file bdt_client.c, line 29.
++run
+The program being debugged has been started already.
+Start it from the beginning? (y or n) 
+Starting program: /u/dianey/Assignments/COS_DFT/1BDT/bdtBad5 
+
+Breakpoint 2, main () at bdt_client.c:29
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:29:1143:beg:0x4027e8
++s
+BDT_init () at bdtBad5.c:397
+/u/cos217/Assignment4/bdtBad5.c:397:9723:beg:0x4023f8
++n
+/u/cos217/Assignment4/bdtBad5.c:399:9779:beg:0x402414
++n
+/u/cos217/Assignment4/bdtBad5.c:400:9801:beg:0x402424
++n
+/u/cos217/Assignment4/bdtBad5.c:401:9817:beg:0x402430
++n
+/u/cos217/Assignment4/bdtBad5.c:402:9831:beg:0x40243c
++n
+/u/cos217/Assignment4/bdtBad5.c:403:9850:beg:0x402440
++n
+
+Breakpoint 1, main () at bdt_client.c:30
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:30:1176:beg:0x402814
++n
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:31:1222:beg:0x402848
++s
+BDT_toString () at bdtBad5.c:467
+/u/cos217/Assignment4/bdtBad5.c:467:11643:beg:0x402680
++n
+/u/cos217/Assignment4/bdtBad5.c:468:11694:beg:0x402688
++n
+/u/cos217/Assignment4/bdtBad5.c:470:11719:beg:0x40268c
++n
+/u/cos217/Assignment4/bdtBad5.c:473:11761:beg:0x4026a8
++print count
+$6 = 0
++s
+DynArray_new (uLength=1) at dynarray.c:84
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:84:2239:beg:0x400ab8
++s
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:85:2305:beg:0x400ac4
++s
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:88:2351:beg:0x400ad8
++s
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:89:2384:beg:0x400ae4
++s
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:92:2466:beg:0x400b04
++s
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:95:2540:beg:0x400b10
++s
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:94:2515:beg:0x400b24
++print oDynArray->ppvArray
+$7 = (const void **) 0x0
++s
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:96:2607:beg:0x400b2c
++print oDynArray->ppvArray
+$8 = (const void **) 0x430030
++n
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:102:2696:beg:0x400b4c
++n
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:103:2717:beg:0x400b50
++n
+BDT_toString () at bdtBad5.c:474
+/u/cos217/Assignment4/bdtBad5.c:474:11795:beg:0x4026c0
++s
+BDT_preOrderTraversal (n=0x0, d=0x430010, i=0) at bdtBad5.c:422
+/u/cos217/Assignment4/bdtBad5.c:422:10315:beg:0x4024b0
++n
+/u/cos217/Assignment4/bdtBad5.c:424:10338:beg:0x4024dc
++n
+/u/cos217/Assignment4/bdtBad5.c:430:10515:beg:0x402538
++n
+/u/cos217/Assignment4/bdtBad5.c:431:10528:beg:0x40253c
++n
+BDT_toString () at bdtBad5.c:476
+/u/cos217/Assignment4/bdtBad5.c:476:11845:beg:0x4026d8
++s
+DynArray_map (oDynArray=0x430010, 
+    pfApply=0x402544 <BDT_strlenAccumulate>, pvExtra=0xfffffffff078)
+    at dynarray.c:246
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:246:6201:beg:0x40134c
++print oDynArray->uLength
+$9 = 1
++print ppvArray->uLength
+No symbol "ppvArray" in current context.
++n
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:247:6231:beg:0x401378
++n
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:248:6259:beg:0x4013a4
++n
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:250:6300:beg:0x4013d4
++n
+/u/dianey/Assignments/COS_DFT/1BDT/dynarray.c:251:6344:beg:0x4013dc
++n
+
+Program received signal SIGABRT, Aborted.
+0x0000ffffbe5f50e8 in raise () from /lib64/libc.so.6
++n
+Single stepping until exit from function raise,
+which has no line number information.
+
+Program terminated with signal SIGABRT, Aborted.
+The program no longer exists.
++run
+Starting program: /u/dianey/Assignments/COS_DFT/1BDT/bdtBad5 
+
+Breakpoint 2, main () at bdt_client.c:29
+/u/dianey/Assignments/COS_DFT/1BDT/bdt_client.c:29:1143:beg:0x4027e8
