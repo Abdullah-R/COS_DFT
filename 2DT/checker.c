@@ -88,9 +88,25 @@ static boolean Checker_treeCheck(Node n) {
    return TRUE;
 }
 
+static boolean Checker_nodeCount(Node n) {
+   size_t count = 0;
+   size_t c;
+
+   if(n != NULL) {
+      count = 1;
+      /* Sample check on each non-root Node: Node must be valid */
+      /* If not, pass that failure back up immediately */
+
+      for(c = 0; c < Node_getNumChildren(n); c++)
+      {
+         count += Checker_nodeCount(Node_getChild(n, c));
+      }
+   }
+   return count;
+}
+
 /* see checker.h for specification */
 boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
-
    /* Sample check on a top-level data structure invariant:
       if the DT is not initialized, its count should be 0. */
 
@@ -122,6 +138,11 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
 
    if( count == 0 && Node_getNumChildren(root) != 0 ){
       fprintf(stderr, "Children array is not empty \n");
+      return FALSE;
+   }
+
+   if( Checker_nodeCount(root) != count){
+      fprintf(stderr, "Number of nodes is not equal to count");
       return FALSE;
    }
 
