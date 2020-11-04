@@ -10,6 +10,22 @@
 #include "checker.h"
 
 
+static boolean Checker_nodeCount(Node n) {
+   size_t count = 0;
+   size_t c;
+
+   if(n != NULL) {
+      count = 1;
+      /* Sample check on each non-root Node: Node must be valid */
+      /* If not, pass that failure back up immediately */
+      for(c = 0; c < Node_getNumChildren(n); c++)
+      {
+         count += Checker_nodeCount(Node_getChild(n, c));
+      }
+   }
+   return count;
+}
+
 /* see checker.h for specification */
 boolean Checker_Node_isValid(Node n) {
    Node parent;
@@ -26,7 +42,12 @@ boolean Checker_Node_isValid(Node n) {
 
    parent = Node_getParent(n);
 
+   if(parent == NULL){
+      fprintf(stderr, "parent is NULL\n");
+   }
+
    if(parent != NULL) {
+
       npath = Node_getPath(n);
 
       /* Sample check that parent's path must be prefix of n's path */
@@ -60,24 +81,37 @@ boolean Checker_Node_isValid(Node n) {
 */
 static boolean Checker_treeCheck(Node n) {
    size_t c;
-
+   
    /*
    if(n == NULL) {
       fprintf(stderr, "Root is NULL\n");
    }
    */
-
    if(n != NULL) {
-      fprintf(stderr, "test\n");
+
+      if( Node_toString(n) == NULL ){
+         fprintf(stderr,"null pointer detected");
+      }
+      fprintf(stderr, "Node: %s\n", Node_toString(n) );
+      /* fprintf(stderr, "Node Parent: %s\n", Node_toString(Node_getParent(n)) ); */
+      fprintf(stderr, "Node Num of Children: %d\n", (int)Node_getNumChildren(n) );
+
+      fprintf(stderr, "before isValid\n");
+
       /* Sample check on each non-root Node: Node must be valid */
       /* If not, pass that failure back up immediately */
       if(!Checker_Node_isValid(n))
          return FALSE;
 
+      fprintf(stderr, "before second getNumChildren\n");
 
       for(c = 0; c < Node_getNumChildren(n); c++)
       {
+         fprintf(stderr, "before\n" );
+
          Node child = Node_getChild(n, c);
+
+         fprintf(stderr, "%s\n", Node_toString(child));
 
          /* if recurring down one subtree results in a failed check
             farther down, passes the failure back up immediately */
@@ -88,22 +122,7 @@ static boolean Checker_treeCheck(Node n) {
    return TRUE;
 }
 
-static boolean Checker_nodeCount(Node n) {
-   size_t count = 0;
-   size_t c;
 
-   if(n != NULL) {
-      count = 1;
-      /* Sample check on each non-root Node: Node must be valid */
-      /* If not, pass that failure back up immediately */
-
-      for(c = 0; c < Node_getNumChildren(n); c++)
-      {
-         count += Checker_nodeCount(Node_getChild(n, c));
-      }
-   }
-   return count;
-}
 
 /* see checker.h for specification */
 boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
@@ -136,14 +155,16 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
       }
    } 
 
-   if( count == 0 && Node_getNumChildren(root) != 0 ){
+   /* if( count == 0 && Node_getNumChildren(root) != 0 ){
       fprintf(stderr, "Children array is not empty \n");
       return FALSE;
-   }
+      }*/ 
 
-   if( Checker_nodeCount(root) != count){
-      fprintf(stderr, "Number of nodes is not equal to count");
-      return FALSE;
+   if( root != NULL){
+      if( Checker_nodeCount(root) != count){
+         fprintf(stderr, "Number of nodes is not equal to count");
+         return FALSE;
+      }
    }
 
    /* Now checks invariants recursively at each Node from the root. */
