@@ -19,12 +19,13 @@ boolean Checker_Node_isValid(Node n) {
    size_t i;
 
    /* Sample check: a NULL pointer is not a valid Node */
-   if(n == NULL) {
+   /* if(n == NULL) {
       fprintf(stderr, "Node is a NULL pointer\n");
       return FALSE;
-   }
+      } */
 
    parent = Node_getParent(n);
+
    if(parent != NULL) {
       npath = Node_getPath(n);
 
@@ -60,12 +61,14 @@ boolean Checker_Node_isValid(Node n) {
 static boolean Checker_treeCheck(Node n) {
    size_t c;
 
+   /*
    if(n == NULL) {
       fprintf(stderr, "Root is NULL\n");
    }
+   */
 
    if(n != NULL) {
-
+      fprintf(stderr, "test\n");
       /* Sample check on each non-root Node: Node must be valid */
       /* If not, pass that failure back up immediately */
       if(!Checker_Node_isValid(n))
@@ -90,6 +93,9 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
 
    /* Sample check on a top-level data structure invariant:
       if the DT is not initialized, its count should be 0. */
+
+   /* fprintf(stderr, "%d\n", (int)root); */
+
    if(!isInit)
    {
       if(count != 0) {
@@ -115,6 +121,11 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
          fprintf(stderr, "Initizlied and empty, but count is not equal to 0\n");
          return FALSE;
       }
+   }
+
+   if( count == 0 && Node_getNumChildren(root) != 0 ){
+      fprintf(stderr, "Children array is not empty \n");
+      return FALSE;
    }
 
    /* Now checks invariants recursively at each Node from the root. */
