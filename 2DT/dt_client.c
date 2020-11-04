@@ -22,7 +22,6 @@ int main(void) {
      toString should return NULL. */
   assert(DT_insertPath("a/b/c") == INITIALIZATION_ERROR);
   assert(DT_containsPath("a/b/c") == FALSE);
-  assert(DT_containsPath("a/b") == FALSE);  /* added */
   assert((temp = DT_toString()) == NULL);
 
   /* After initialization, the data structure is empty, so
@@ -30,9 +29,7 @@ int main(void) {
      and toString should return the empty string.*/
   assert(DT_init() == SUCCESS);
   assert(DT_containsPath("a/b/c") == FALSE);
-  assert(DT_containsPath("a/b") == FALSE);  /* added */
   assert((temp = DT_toString()) != NULL);
-  assert(DT_containsPath("a/b") == FALSE);  /* added */
   assert(!strcmp(temp,""));
   free(temp);
 
