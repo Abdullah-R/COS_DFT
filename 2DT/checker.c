@@ -108,20 +108,17 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
       }
    }
 
-   if( count == 0 && isInit )
+   if(isInit)
    {
-      if( root != NULL ) {
+      if( count == 0 && root != NULL ) {
          fprintf(stderr, "Initialized and empty, but root is not equal to NULL\n");
          return FALSE;
       }
-   }
-
-   if( root == NULL && isInit ){
-      if( count != 0 ) {
-         fprintf(stderr, "Initizlied and empty, but count is not equal to 0\n");
+      if(root == NULL && count != 0 ) {
+         fprintf(stderr, "Initialized and empty, but count is not equal to 0\n");
          return FALSE;
       }
-   }
+   } 
 
    if( count == 0 && Node_getNumChildren(root) != 0 ){
       fprintf(stderr, "Children array is not empty \n");
