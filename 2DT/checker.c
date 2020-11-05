@@ -102,7 +102,7 @@ boolean Checker_Node_isValid(Node n) {
 
          j = strlen( child1 );
 
-         if( strncmp(child1, child2, j) < 0 ) {
+         if( strncmp(child1, child2, j) > 0 ) {
             fprintf(stderr, "P's children are not in alphabetical order\n");
             return FALSE;
          }
