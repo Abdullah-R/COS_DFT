@@ -9,10 +9,13 @@
 #include "dynarray.h"
 #include "checker.h"
 
+static int badParent;
 
 static boolean Checker_nodeCount(Node n) {
    size_t count = 0;
    size_t c;
+
+   if(!Node_getParent(n)) badParent = 1;
 
    if(n != NULL) {
       count = 1;
@@ -162,6 +165,7 @@ static boolean Checker_treeCheck(Node n) {
 
 /* see checker.h for specification */
 boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
+   size_t i, nodeCount = 1;
 
    /* fprintf(stderr, "%d\n", (int)root); */
 
@@ -204,10 +208,20 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
       }*/
 
    if( root != NULL){
-      if( Checker_nodeCount(root) != count){
+
+      for(i = 0; i < Node_getNumChildren(root); i++){
+         nodeCount += Checker_nodeCount(Node_getChild(root, i));
+      }
+
+      if( nodeCount != count){
          fprintf(stderr, "Number of nodes is not equal to count");
          return FALSE;
       }
+   }
+
+   if(badParent) {
+      fprintf(stderr, "Node has parent but contains NULL where parent pointer should be");
+      return FALSE;
    }
 
    /* Now checks invariants recursively at each Node from the root. */
