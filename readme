@@ -3,12 +3,12 @@ Assignment 4 readme File
 ------------------------------------------------------------------------
 Student 1: What is your name?
 
-
+Diane Yang
 
 ------------------------------------------------------------------------
 Student 2: What is your name?
 
-
+Abdullah Ramadan
 
 ------------------------------------------------------------------------
 Student 1: What authorized sources of information did you use to
@@ -79,7 +79,7 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
-
+None.
 
 ------------------------------------------------------------------------
 What warnings does critTer generate on your Part 3 code, and what are
@@ -95,7 +95,16 @@ your disagreements with them? Copy the splint warnings here, and
 express your disagreement after each warning. If there are no
 warnings, then write "None."
 
+checker.h:16:9: Function exported but not used outside checker:
+                Checker_Node_isValid
+		A declaration is exported, but not used outside
+		this module. Declaration can use static qualifier.
 
+Although splint is corrent that our Checker_Node_isValid function can
+be static as it is not called anywhere else, the Checker_Node_isValid
+is listed in the given header file. This suggests the possibility that
+future test may want to call Checker_Node_isValid at the beginning of
+a Node function, which is a valid thing to do.
 
 ------------------------------------------------------------------------
 What warnings does splint generate on Part 3, and what are your
