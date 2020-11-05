@@ -14,6 +14,7 @@
    the Node's parent (if it exists) and children (if they exist).
 */
 typedef struct node* Node;
+typedef enum {DIRECTORY, FILE} nodeType;
 
 
 /*
@@ -29,7 +30,7 @@ typedef struct node* Node;
    do not point to any children.
 */
 
-Node Node_create(const char* dir, Node parent);
+Node Node_create(const char* dir, Node parent, nodeType type);
 
 /*
   Destroys the entire hierarchy of Nodes rooted at n,
@@ -66,7 +67,7 @@ size_t Node_getNumChildren(Node n);
    child's identifier in *childID. If n does not have such a child,
    store the identifier that such a child would have in *childID.
 */
-int Node_hasChild(Node n, const char* path, size_t* childID);
+int Node_hasChild(Node n, const char* path, nodeType type);
 
 /*
    Returns the child Node of n with identifier childID, if one exists,
@@ -113,7 +114,7 @@ int Node_unlinkChild(Node parent, Node child);
   MEMORY_ERROR if the new Node cannot be created,
   ALREADY_IN_TREE if parent already has a child with that path
 */
-int Node_addChild(Node parent, const char* dir);
+int Node_addChild(Node parent, const char* dir, nodeType type);
 
 /*
   Returns a string representation n, or NULL if there is an allocation

@@ -11,20 +11,36 @@
 #include "dynarray.h"
 #include "node.h"
 
+
+struct fileS {
+   void *contents;
+   size_t length;
+};
+
 /*
-   A node structure represents a directory in the directory tree
+   A node structure represents either a file or a          void *contents;
+         size_t length;ectory in a 
+   file tree
 */
 struct node {
-   /* the full path of this directory */
+   /* the full path of this node */
    char* path;
 
-   /* the parent directory of this directory
-      NULL for the root of the directory tree */
+   /* the parent directory of this node
+      NULL for the root of the file tree */
    Node parent;
 
-   /* the subdirectories of this directory
-      stored in sorted order by pathname */
-   DynArray_T children;
+   /* defines whether the node at this path is
+      a file or a directory */
+   nodeType type;
+
+   /* Either holds the subdirectories of 
+   this node stored in sorted order 
+   by pathname or the file contents*/
+   union {
+      DynArray_T children;
+      struct fileS file;
+   } storage;
 };
 
 
@@ -36,15 +52,15 @@ struct node {
   Allocates memory for the returned string,
   which is then owened by the caller!
 */
-static char* Node_buildPath(Node n, const char* dir) {
+static char* Node_buildPath(Node n, const char* name) {
    char* path;
 
-   assert(dir != NULL);
+   assert(name != NULL);
 
    if(n == NULL)
-      path = malloc(strlen(dir)+1);
+      path = malloc(strlen(name)+1);
    else
-      path = malloc(strlen(n->path) + 1 + strlen(dir) + 1);
+      path = malloc(strlen(n->path) + 1 + strlen(name) + 1);
 
    if(path == NULL)
       return NULL;
@@ -54,23 +70,23 @@ static char* Node_buildPath(Node n, const char* dir) {
       strcpy(path, n->path);
       strcat(path, "/");
    }
-   strcat(path, dir);
+   strcat(path, name);
 
    return path;
 }
 
 /* see node.h for specification */
-Node Node_create(const char* dir, Node parent){
+Node Node_create(const char* name, Node parent, nodeType type){
 
    Node new;
 
-   assert(dir != NULL);
+   assert(name != NULL);
 
    new = malloc(sizeof(struct node));
    if(new == NULL)
       return NULL;
 
-   new->path = Node_buildPath(parent, dir);
+   new->path = Node_buildPath(parent, name);
 
    if(new->path == NULL) {
       free(new);
@@ -78,14 +94,26 @@ Node Node_create(const char* dir, Node parent){
    }
 
    new->parent = parent;
-   new->children = DynArray_new(0);
-   if(new->children == NULL) {
-      free(new->path);
-      free(new);
-      return NULL;
-   }
+   new->type = type;
 
+   if(type == DIRECTORY){
+      new->storage.children = DynArray_new(0);
+      if(new->storage.children == NULL) {
+         free(new->path);
+         free(new);
+         return NULL;
+      }
+   }
    return new;
+}
+
+/* adds a pointer to the contents of a file, *contents,
+   to a file-type node, n */
+void Node_addFile(Node n, void *contents) {
+   assert(n->type == FILE);
+   assert(contents != NULL);
+
+   n->storage.file.contents = contents;
 }
 
 /* see node.h for specification */
@@ -95,16 +123,19 @@ size_t Node_destroy(Node n) {
    Node c;
 
    assert(n != NULL);
-
-   for(i = 0; i < DynArray_getLength(n->children); i++)
-   {
-      c = DynArray_get(n->children, i);
-      count += Node_destroy(c);
+   
+   if(n->type == DIRECTORY){
+      for(i = 0; i < DynArray_getLength(n->storage.children); i++)
+         {
+            c = DynArray_get(n->storage.children, i);
+            count += Node_destroy(c);
+         }
+      DynArray_free(n->storage.children);
    }
-   DynArray_free(n->children);
 
    free(n->path);
    free(n);
+   
    count++;
 
    return count;
@@ -134,6 +165,12 @@ int Node_compare(Node node1, Node node2) {
    assert(node1 != NULL);
    assert(node2 != NULL);
 
+   if(node1->type != node2->type){
+      /* If node1 is a FILE, it will return -1 otherwise node1 is 
+         a DIRECTORY and node2 is a file so it will return 1 */
+      return (node1->type)?-1:1;
+   }
+
    return strcmp(node1->path, node2->path);
 }
 
@@ -143,36 +180,38 @@ int Node_compare(Node node1, Node node2) {
 size_t Node_getNumChildren(Node n) {
    assert(n != NULL);
 
-   return DynArray_getLength(n->children);
+   /* If n is a file, it will return 0, otherwise it will return the 
+      numhber of children*/
+   return (n->type)? 0 : DynArray_getLength(n->storage.children);
 }
 
 /* see node.h for specification */
-int Node_hasChild(Node n, const char* path, size_t* childID) {
+int Node_hasChild(Node n, const char* path, nodeType type) {
    size_t index;
    int result;
    Node checker;
 
    assert(n != NULL);
    assert(path != NULL);
+   assert(n->type != FILE);
 
-   checker = Node_create(path, NULL);
+   checker = Node_create(path, NULL, type);
    if(checker == NULL)
       return -1;
-   result = DynArray_bsearch(n->children, checker, &index,
+   result = DynArray_bsearch(n->storage.children, checker, &index,
                     (int (*)(const void*, const void*)) Node_compare);
    (void) Node_destroy(checker);
 
-   if(childID != NULL)
-      *childID = index;
    return result;
 }
 
 /* see node.h for specification */
 Node Node_getChild(Node n, size_t childID) {
    assert(n != NULL);
+   assert(n->type == DIRECTORY);
 
-   if(DynArray_getLength(n->children) > childID)
-      return DynArray_get(n->children, childID);
+   if(DynArray_getLength(n->storage.children) > childID)
+      return DynArray_get(n->storage.children, childID);
    else
       return NULL;
 }
@@ -190,6 +229,7 @@ int Node_linkChild(Node parent, Node child) {
    char* rest;
 
    assert(parent != NULL);
+   assert(parent->type == DIRECTORY);
    assert(child != NULL);
 
    if(Node_hasChild(parent, child->path, NULL))
@@ -206,11 +246,11 @@ int Node_linkChild(Node parent, Node child) {
 
    child->parent = parent;
 
-   if(DynArray_bsearch(parent->children, child, &i,
+   if(DynArray_bsearch(parent->storage.children, child, &i,
          (int (*)(const void*, const void*)) Node_compare) == 1)
       return ALREADY_IN_TREE;
 
-   if(DynArray_addAt(parent->children, i, child) == TRUE)
+   if(DynArray_addAt(parent->storage.children, i, child) == TRUE)
       return SUCCESS;
    else
       return PARENT_CHILD_ERROR;
@@ -221,26 +261,28 @@ int  Node_unlinkChild(Node parent, Node child) {
    size_t i;
 
    assert(parent != NULL);
+   assert(parent->type == DIRECTORY);
    assert(child != NULL);
 
-   if(DynArray_bsearch(parent->children, child, &i,
+   if(DynArray_bsearch(parent->storage.children, child, &i,
          (int (*)(const void*, const void*)) Node_compare) == 0)
       return PARENT_CHILD_ERROR;
 
-   (void) DynArray_removeAt(parent->children, i);
+   (void) DynArray_removeAt(parent->storage.children, i);
    return SUCCESS;
 }
 
 
 /* see node.h for specification */
-int Node_addChild(Node parent, const char* dir) {
+int Node_addChild(Node parent, const char* name, nodeType type) {
    Node new;
    int result;
 
    assert(parent != NULL);
-   assert(dir != NULL);
+   assert(parent->type == DIRECTORY);
+   assert(name != NULL);
 
-   new = Node_create(dir, parent);
+   new = Node_create(name, parent, type);
    if(new == NULL)
       return PARENT_CHILD_ERROR;
 
