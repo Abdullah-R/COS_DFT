@@ -293,6 +293,37 @@ int Node_addChild(Node parent, const char* name, nodeType type) {
    return result;
 }
 
+/* See node.h for specification */
+void Node_insertFileContents(Node n, void *contents, size_t length){
+   assert(n != NULL);
+   assert(n->type == FILE);
+
+   n->storage.file.contents = contents;
+   n->storage.file.length = length;
+
+}
+
+/* See node.h for specification */
+void *Node_getFileContents(Node n){
+   assert(n != NULL);
+   assert(n->type == FILE);
+
+   return n->storage.file.contents;
+}
+
+/* See node.h for specification */
+size_t Node_getFileLength(Node n){
+   assert(n != NULL);
+   assert(n->type == FILE);
+
+   return n->storage.file.length;
+}
+
+/* See node.h for specification */
+nodeType Node_getType(Node n){
+   assert(n != NULL);
+   return n->type;
+}
 
 /* see node.h for specification */
 char* Node_toString(Node n) {
@@ -306,3 +337,4 @@ char* Node_toString(Node n) {
    else
       return strcpy(copyPath, n->path);
 }
+

@@ -128,6 +128,25 @@ int Node_unlinkChild(Node parent, Node child);
 */
 int Node_addChild(Node parent, const char* dir, nodeType type);
 
+/* 
+  Inserts *contents into n->storage.file.contents and length into
+  n->storage.file.length 
+*/
+void Node_insertFileContents(Node n, void *contents, size_t length);
+
+/* 
+  returns void *pointer from n->storage.file.contents
+*/
+void *Node_getFileContents(Node n);
+
+/* 
+  returns length from n->storage.file.length
+*/
+size_t Node_getFileLength(Node n);
+
+/* Returns n->type which is either FILE or DIRECTORY*/
+nodeType Node_getType(Node n);
+
 /*
   Returns a string representation n, or NULL if there is an allocation
   error.
