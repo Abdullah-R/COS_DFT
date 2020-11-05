@@ -32,7 +32,11 @@ boolean Checker_Node_isValid(Node n) {
    const char* npath;
    const char* ppath;
    const char* rest;
+   const char* child1;
+   const char* child2;
+   size_t c;
    size_t i;
+   size_t j;
 
    /* Sample check: a NULL pointer is not a valid Node */
    /* if(n == NULL) {
@@ -45,8 +49,8 @@ boolean Checker_Node_isValid(Node n) {
    /* fprintf(stderr, "Node: %s\n", Node_toString(n) ); */
 
    /* Sample check: a NULL pointer is not a valid Node */
-   if(parent == NULL){
-      /*
+   /* if(parent == NULL){
+     
       fprintf(stderr, "Parent is NULL\n");
       fprintf(stderr, "Node: %s\n", Node_toString(n) );
       fprintf(stderr, "Node Num of Children: %d\n", (int)Node_getNumChildren(n) );
@@ -54,8 +58,8 @@ boolean Checker_Node_isValid(Node n) {
       if( Node_getNumChildren(n) != 0 ){
          fprintf(stderr, "Non-zero number of children \n");
       }
-      */
-   }
+      
+      } */
 
    if(parent != NULL) {
 
@@ -76,6 +80,7 @@ boolean Checker_Node_isValid(Node n) {
          fprintf(stderr, "P's path is not a prefix of C's path\n");
          return FALSE;
       }
+
       /* Sample check that n's path after parent's path + '/'
          must have no further '/' characters */
       rest = npath + i;
@@ -83,6 +88,21 @@ boolean Checker_Node_isValid(Node n) {
       if(strstr(rest, "/") != NULL) {
          fprintf(stderr, "C's path has grandchild of P's path\n");
          return FALSE;
+      }
+
+      /* Sample check that the children of the  parent are in
+         alphabetical order */
+      for(c = 1; c < Node_getNumChildren(n); c++)
+      {
+         child1 = Node_getPath(Node_getChild(n, c-1));
+         child2 = Node_getPath(Node_getChild(n, c));
+
+         j = strlen( child1 );
+
+         if( strncmp(child1, child2, j) < 0 ) {
+            fprintf(stderr, "P's children are not in alphabetical order\n");
+            return FALSE;
+         }
       }
    }
 
