@@ -147,6 +147,24 @@ which we promise is itself correct:
 What are your critiques of the given DT implementations, as
 specified in Step 2.5?
 
+In nodeGood.c, Node_addChild is currently unused and is redundant with
+the existence of Node_createChild. Although Node_createChild might be
+useful when creating the FT implementation, in the DT implementation
+every time a bidirectional link is needed, both Node_createChild and
+Node_linkChild are called in place of Node_addChild.
+
+In addition, in dtGood.c, T_traversePath simply asserts that path !=
+NULL, then calls DT_traversePathFrom. In order to minimize the module
+interface, DT_traversePath and DT_traversePathFrom can be combined
+into a single function.
+
+The commented out version of Node_getPath have the advantage of
+creating a copy of the path before passing it to the client. This would
+be preferrable to the current const char* return type, which a user
+could ignore by casting to (char*). For increased resource management,
+it might be better to go with the commented out version of
+Node_getPath, as long as it's clear in the header file that the client
+must be responsible for the memory of the returned string.
 
 
 ------------------------------------------------------------------------
