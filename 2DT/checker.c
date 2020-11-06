@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------*/
 /* checker.c                                                          */
-/* Author:                                                            */
+/* Author: Diane Yang and Abdullah Ramadan                            */
 /*--------------------------------------------------------------------*/
 
 #include <assert.h>
@@ -9,7 +9,6 @@
 #include "dynarray.h"
 #include "checker.h"
 
-/* static int badParent; */
 
 /* Checks if the count invariant of Node n is equal to the total
    number of nodes in the directory tree.
@@ -19,8 +18,6 @@
 static boolean Checker_nodeCount(Node n) {
    size_t count = 0;
    size_t c;
-
-   /* if(!Node_getParent(n)) badParent = 1; */
 
    if(n != NULL) {
       count = 1;
@@ -46,16 +43,7 @@ boolean Checker_Node_isValid(Node n) {
    size_t i;
    size_t j;
 
-   /* Sample check: a NULL pointer is not a valid Node */
-   /* if(n == NULL) {
-      fprintf(stderr, "Node is a NULL pointer\n");
-      return FALSE;
-      } */
-
    parent = Node_getParent(n);
-
-   /* fprintf(stderr, "Node: %s\n", Node_toString(n) ); */
-
 
    if(parent != NULL) {
 
@@ -95,7 +83,7 @@ boolean Checker_Node_isValid(Node n) {
 
          if( strncmp(child1, child2, j) > 0 ) {
             fprintf(stderr, "P's children are not in alphabetical"
-                    "order\n");
+                    " order\n");
             return FALSE;
          }
       }
@@ -154,7 +142,7 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
       }
       if( root != NULL ) {
          fprintf(stderr, "Not initialized, but root is not equal to"
-                 "NULL\n");
+                 " NULL\n");
          return FALSE;
       }
    }
@@ -182,19 +170,19 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
          nodeCount += Checker_nodeCount(Node_getChild(root, i));
       }
 
+      /* Sample check that the number of nodes is equal to count
+         invariant */
       if( nodeCount != count){
          fprintf(stderr, "Number of nodes is not equal to count");
          return FALSE;
       }
-   }
 
-   /* 
-   if(badParent) {
-      fprintf(stderr, "Node has parent but contains NULL where parent"
-              "pointer should be");
-      return FALSE;
+      /* Sample check that root path does not contain '/' */
+      if( strstr( Node_getPath(root), "/") != NULL ){
+         fprintf(stderr, "Root contains a '/' character");
+         return FALSE;
+      }
    }
-   */
 
    /* Now checks invariants recursively at each Node from the root. */
    return Checker_treeCheck(root);
