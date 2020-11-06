@@ -177,6 +177,11 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
          return FALSE;
       }
 
+      if(Node_getPath(root) == NULL){
+         fprintf(stderr, "Root contains a NULL path");
+         return FALSE;
+      }
+
       /* Sample check that root path does not contain '/' */
       if( strstr( Node_getPath(root), "/") != NULL ){
          fprintf(stderr, "Root contains a '/' character");
