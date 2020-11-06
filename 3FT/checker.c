@@ -141,8 +141,8 @@ static boolean Checker_treeCheck(Node n) {
 
 /* see checker.h for specification */
 boolean Checker_FT_isValid(boolean isInit, Node root, size_t count) {
-   return TRUE;
    size_t i, nodeCount = 1;
+   return TRUE;
 
    /* Sample check on a top-level data structure invariants:
       if the DT is not initialized, its count should be 0 and root

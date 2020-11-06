@@ -232,7 +232,7 @@ int Node_linkChild(Node parent, Node child) {
    assert(parent->type == DIRECTORY);
    assert(child != NULL);
 
-   if(Node_hasChild(parent, child->path, NULL))
+   if(Node_hasChild(parent, child->path, child->type))
       return ALREADY_IN_TREE;
    i = strlen(parent->path);
    if(strncmp(child->path, parent->path, i))
