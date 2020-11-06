@@ -110,7 +110,7 @@ Node Node_create(const char* name, Node parent, nodeType type){
 /* adds a pointer to the contents of a file, *contents,
    to a file-type node, n */
 void Node_addFile(Node n, void *contents) {
-   assert(n->type == FILE);
+   assert(n->type == FILE_S);
    assert(contents != NULL);
 
    n->storage.file.contents = contents;
@@ -166,7 +166,7 @@ int Node_compare(Node node1, Node node2) {
    assert(node2 != NULL);
 
    if(node1->type != node2->type){
-      /* If node1 is a FILE, it will return -1 otherwise node1 is 
+      /* If node1 is a FILE_S, it will return -1 otherwise node1 is 
          a DIRECTORY and node2 is a file so it will return 1 */
       return (node1->type)?-1:1;
    }
@@ -193,7 +193,7 @@ int Node_hasChild(Node n, const char* path, nodeType type) {
 
    assert(n != NULL);
    assert(path != NULL);
-   assert(n->type != FILE);
+   assert(n->type != FILE_S);
 
    checker = Node_create(path, NULL, type);
    if(checker == NULL)
@@ -296,7 +296,7 @@ int Node_addChild(Node parent, const char* name, nodeType type) {
 /* See node.h for specification */
 void Node_insertFileContents(Node n, void *contents, size_t length){
    assert(n != NULL);
-   assert(n->type == FILE);
+   assert(n->type == FILE_S);
 
    n->storage.file.contents = contents;
    n->storage.file.length = length;
@@ -306,7 +306,7 @@ void Node_insertFileContents(Node n, void *contents, size_t length){
 /* See node.h for specification */
 void *Node_getFileContents(Node n){
    assert(n != NULL);
-   assert(n->type == FILE);
+   assert(n->type == FILE_S);
 
    return n->storage.file.contents;
 }
@@ -314,7 +314,7 @@ void *Node_getFileContents(Node n){
 /* See node.h for specification */
 size_t Node_getFileLength(Node n){
    assert(n != NULL);
-   assert(n->type == FILE);
+   assert(n->type == FILE_S);
 
    return n->storage.file.length;
 }

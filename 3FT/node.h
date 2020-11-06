@@ -17,7 +17,7 @@
 */
 typedef struct node* Node;
 
-typedef enum {DIRECTORY, FILE} nodeType;
+typedef enum {DIRECTORY, FILE_S} nodeType;
 
 
 /*
@@ -144,7 +144,7 @@ void *Node_getFileContents(Node n);
 */
 size_t Node_getFileLength(Node n);
 
-/* Returns n->type which is either FILE or DIRECTORY*/
+/* Returns n->type which is either FILE_S or DIRECTORY*/
 nodeType Node_getType(Node n);
 
 /*

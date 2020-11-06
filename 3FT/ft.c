@@ -338,7 +338,7 @@ int FT_insertFile(char* path, void *contents, size_t length) {
    if(!isInitialized)
       return INITIALIZATION_ERROR;
    curr = FT_traversePath(path);
-   result = FT_insertRestOfPath(path, curr, FILE);
+   result = FT_insertRestOfPath(path, curr, FILE_S);
    curr = FT_traversePath(path);
    Node_insertFileContents(curr, contents, length);   
    
@@ -453,8 +453,8 @@ int FT_stat(char *path, boolean* type, size_t* length){
       result =  NO_SUCH_PATH;
    else{
       result = SUCCESS;
-      type = Node_getType(curr);
-      if(type == FILE) length = Node_getFileLength(curr);
+      type = (boolean)Node_getType(curr);
+      if(type == FILE_S) length = Node_getFileLength(curr);
    }
    assert(Checker_FT_isValid(isInitialized,root,count));
    return result;
