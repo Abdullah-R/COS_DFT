@@ -23,6 +23,7 @@ int main(void) {
      containsDir should return FALSE for any non-NULL argument, and
      toString should return NULL. */
   assert(FT_insertDir("a/b/c") == INITIALIZATION_ERROR);
+  
   assert(FT_containsDir("a/b/c") == FALSE);
   assert(FT_insertFile("a/b/c/D",NULL,0) == INITIALIZATION_ERROR);
   assert(FT_containsDir("a/b/c/D") == FALSE);

@@ -117,7 +117,7 @@ static int FT_insertRestOfPath(char* path, Node parent, nodeType type) {
    Node new;
    char* copyPath;
    char* restPath = path;
-   char* dirToken, nextDirToken;
+   char* dirToken, *nextDirToken;
    int result;
    size_t newCount = 0;
 
@@ -296,7 +296,8 @@ boolean FT_containsDir(char* path) {
 
    if(curr == NULL)
       result = FALSE;
-   else if(strcmp(path, Node_getPath(curr)))
+   else if(strcmp(path, Node_getPath(curr))
+           || Node_getType(curr) == FILE_S)
       result = FALSE;
    else
       result = TRUE;
@@ -319,8 +320,10 @@ int FT_rmDir(char* path) {
    curr = FT_traversePath(path);
    if(curr == NULL)
       result =  NO_SUCH_PATH;
-   else
+   else if (Node_getType(curr) == DIRECTORY)
       result = FT_rmPathAt(path, curr);
+   else
+      result = NOT_A_DIRECTORY;
 
    assert(Checker_FT_isValid(isInitialized,root,count));
    return result;
@@ -339,9 +342,12 @@ int FT_insertFile(char* path, void *contents, size_t length) {
       return INITIALIZATION_ERROR;
    curr = FT_traversePath(path);
    result = FT_insertRestOfPath(path, curr, FILE_S);
-   curr = FT_traversePath(path);
-   Node_insertFileContents(curr, contents, length);   
-   
+
+   if( result == SUCCESS ){
+      curr = FT_traversePath(path);
+      Node_insertFileContents(curr, contents, length);
+   }
+
    assert(Checker_FT_isValid(isInitialized,root,count));
    return result;
 }
@@ -362,7 +368,8 @@ boolean FT_containsFile(char* path) {
 
    if(curr == NULL)
       result = FALSE;
-   else if(strcmp(path, Node_getPath(curr)))
+   else if(strcmp(path, Node_getPath(curr))
+           || Node_getType(curr) == DIRECTORY)
       result = FALSE;
    else
       result = TRUE;
@@ -385,8 +392,10 @@ int FT_rmFile(char* path) {
    curr = FT_traversePath(path);
    if(curr == NULL)
       result =  NO_SUCH_PATH;
-   else
+   else if( Node_getType(curr) == FILE_S)
       result = FT_rmPathAt(path, curr);
+   else
+      result = NOT_A_FILE;
 
    assert(Checker_FT_isValid(isInitialized,root,count));
    return result;
@@ -395,7 +404,7 @@ int FT_rmFile(char* path) {
 /* see ft.h for specification */
 void *FT_getFileContents(char *path){
    Node curr;
-   int result;
+   void* result;
 
    assert(Checker_FT_isValid(isInitialized,root,count));
    assert(path != NULL);
@@ -417,7 +426,7 @@ void *FT_getFileContents(char *path){
 void *FT_replaceFileContents(char *path, void *newContents,
                              size_t newLength){
    Node curr;
-   int result;
+   void * result;
 
    assert(Checker_FT_isValid(isInitialized,root,count));
    assert(path != NULL);
@@ -454,7 +463,7 @@ int FT_stat(char *path, boolean* type, size_t* length){
    else{
       result = SUCCESS;
       *type = (boolean)Node_getType(curr);
-      if(type == FILE_S) *length = Node_getFileLength(curr);
+      if(*type == (boolean)FILE_S) *length = Node_getFileLength(curr);
    }
    assert(Checker_FT_isValid(isInitialized,root,count));
    return result;

@@ -40,11 +40,10 @@ boolean Checker_Node_isValid(Node n) {
    const char* npath;
    const char* ppath;
    const char* rest;
-   const char* child1;
-   const char* child2;
+   Node child1;
+   Node child2;
    size_t c;
    size_t i;
-   size_t j;
 
    /* Sample check: a NULL pointer is not a valid Node */
    /* if(n == NULL) {
@@ -84,18 +83,16 @@ boolean Checker_Node_isValid(Node n) {
          return FALSE;
       }
 
-      /* Sample check that the children of the  parent are in
+      /* Sample check that the children of the parent are in
          alphabetical order */
       for(c = 1; c < Node_getNumChildren(n); c++)
       {
-         child1 = Node_getPath(Node_getChild(n, c-1));
-         child2 = Node_getPath(Node_getChild(n, c));
+         child1 = Node_getChild(n, c-1);
+         child2 = Node_getChild(n, c);
 
-         j = strlen( child1 );
-
-         if( strncmp(child1, child2, j) > 0 ) {
+         if( Node_compare(child1, child2) > 0 ) {
             fprintf(stderr, "P's children are not in alphabetical"
-                    "order\n");
+                    " order\n");
             return FALSE;
          }
       }
@@ -142,7 +139,7 @@ static boolean Checker_treeCheck(Node n) {
 /* see checker.h for specification */
 boolean Checker_FT_isValid(boolean isInit, Node root, size_t count) {
    size_t i, nodeCount = 1;
-   return TRUE;
+   /* return TRUE; */
 
    /* Sample check on a top-level data structure invariants:
       if the DT is not initialized, its count should be 0 and root

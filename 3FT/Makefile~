@@ -1,0 +1,16 @@
+all: ft_client
+
+ft_client: ft_client.o ft.o node.o dynArray.o
+	gcc217 -g ft_client.o ft.o node.o dynArray.o -o ft_client
+
+ft_client.o: ft_client.c bt.h
+	gcc217 -c -g ft_client.c
+
+ft.o: ft.c ft.h node.h dynarray.h
+	gcc217 -c -g ft.c
+
+node.o: node.c node.h dynArray.h
+	gcc217 -c -g node.c
+
+dynArray.o: dynarray.c dynarray.h
+	gcc217 -c -g dynarray.c
