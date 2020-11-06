@@ -111,23 +111,6 @@ int Node_linkChild(Node parent, Node child);
  */
 int Node_unlinkChild(Node parent, Node child);
 
-/*
-  Creates a new Node such that the new Node's path is dir appended to
-  n's path, separated by a slash, and that the new Node has no
-  children of its own. The new node's parent is n, and the new node is
-  added as a child of n.
-
-  (Reiterating for clarity: unlike with Node_create, parent *is*
-  changed so that the link is bidirectional.)
-
-  Returns SUCCESS upon completion, or:
-  MEMORY_ERROR if the new Node cannot be created,
-  ALREADY_IN_TREE if parent already has a child with that path
-
-  parent must be a directory node, as specified by type.
-*/
-int Node_addChild(Node parent, const char* dir, nodeType type);
-
 /* 
   Inserts *contents into n->storage.file.contents and length into
   n->storage.file.length 

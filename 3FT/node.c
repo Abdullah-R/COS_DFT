@@ -107,15 +107,6 @@ Node Node_create(const char* name, Node parent, nodeType type){
    return new;
 }
 
-/* adds a pointer to the contents of a file, *contents,
-   to a file-type node, n */
-void Node_addFile(Node n, void *contents) {
-   assert(n->type == FILE_S);
-   assert(contents != NULL);
-
-   n->storage.file.contents = contents;
-}
-
 /* see node.h for specification */
 size_t Node_destroy(Node n) {
    size_t i;
@@ -270,27 +261,6 @@ int  Node_unlinkChild(Node parent, Node child) {
 
    (void) DynArray_removeAt(parent->storage.children, i);
    return SUCCESS;
-}
-
-
-/* see node.h for specification */
-int Node_addChild(Node parent, const char* name, nodeType type) {
-   Node new;
-   int result;
-
-   assert(parent != NULL);
-   assert(parent->type == DIRECTORY);
-   assert(name != NULL);
-
-   new = Node_create(name, parent, type);
-   if(new == NULL)
-      return PARENT_CHILD_ERROR;
-
-   result = Node_linkChild(parent, new);
-   if(result != SUCCESS)
-      (void) Node_destroy(new);
-
-   return result;
 }
 
 /* See node.h for specification */

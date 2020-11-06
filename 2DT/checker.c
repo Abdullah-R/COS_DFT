@@ -136,10 +136,12 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
       should be NULL. */
    if(!isInit)
    {
+      /* Count initialization mismatch */
       if(count != 0) {
          fprintf(stderr, "Not initialized, but count is not 0\n");
          return FALSE;
       }
+      /* Count initialization mismatch */
       if( root != NULL ) {
          fprintf(stderr, "Not initialized, but root is not equal to"
                  " NULL\n");
@@ -151,12 +153,14 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
       if the DT is initialized, its count should be 0 and root
       should be NULL. */
    if(isInit)
-   {
+   {  
+      /* Count root mismatch*/
       if( root != NULL && count == 0 ) {
          fprintf(stderr, "Initialized and empty, but root is not equal"
                  "to NULL\n");
          return FALSE;
       }
+      /* Count root mismatch */
       if( count != 0 && root == NULL ) {
          fprintf(stderr, "Initialized and empty, but count is not"
                  "equal to 0\n");
@@ -166,6 +170,7 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
 
    if( root != NULL){
 
+      /* Get independent node count */
       for(i = 0; i < Node_getNumChildren(root); i++){
          nodeCount += Checker_nodeCount(Node_getChild(root, i));
       }
@@ -177,6 +182,7 @@ boolean Checker_DT_isValid(boolean isInit, Node root, size_t count) {
          return FALSE;
       }
 
+      /* Case where root path equals NULL */
       if(Node_getPath(root) == NULL){
          fprintf(stderr, "Root contains a NULL path");
          return FALSE;
