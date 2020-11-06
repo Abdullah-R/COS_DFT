@@ -21,9 +21,9 @@ typedef enum {DIRECTORY, FILE_S} nodeType;
 
 
 /*
-   Given a parent Node and a directory/file string name, returns a new
-   Node structure or NULL if any allocation error occurs in creating
-   the node or its fields.
+   Given a parent Node, a directory/file string name, and a nodeType type,
+   returns a new Node structure or NULL if any allocation error occurs in
+   creating the node or its fields.
 
    The new structure is initialized to have its path as the parent's
    path (if it exists) prefixed to the name string parameter,
@@ -71,7 +71,7 @@ size_t Node_getNumChildren(Node n);
    If n does have such a child, and childID is not NULL, store the
    child's identifier in *childID. If n does not have such a child,
    store the identifier that such a child would have in *childID.
-
+   Only search among the type of nodes signified by nodeType type.
    n must be a directory, not a file.
 */
 int Node_hasChild(Node n, const char* path, nodeType type);

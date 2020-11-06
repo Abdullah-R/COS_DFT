@@ -46,7 +46,7 @@ struct node {
 
 /*
   returns a path with contents
-  n->path/dir
+  n->path/name
   or NULL if there is an allocation error.
 
   Allocates memory for the returned string,
