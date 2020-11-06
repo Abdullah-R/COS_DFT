@@ -453,8 +453,8 @@ int FT_stat(char *path, boolean* type, size_t* length){
       result =  NO_SUCH_PATH;
    else{
       result = SUCCESS;
-      type = (boolean)Node_getType(curr);
-      if(type == FILE_S) length = Node_getFileLength(curr);
+      *type = (boolean)Node_getType(curr);
+      if(type == FILE_S) *length = Node_getFileLength(curr);
    }
    assert(Checker_FT_isValid(isInitialized,root,count));
    return result;
